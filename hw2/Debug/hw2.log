@@ -1,0 +1,10 @@
+﻿  main.cpp
+f:\大三下\计算机图形学\hw2\hw2\main.cpp(138): warning C4244: “初始化”: 从“double”转换到“float”，可能丢失数据
+f:\大三下\计算机图形学\hw2\hw2\main.cpp(228): warning C4244: “=”: 从“double”转换到“float”，可能丢失数据
+f:\大三下\计算机图形学\hw2\hw2\main.cpp(229): warning C4244: “=”: 从“double”转换到“float”，可能丢失数据
+f:\大三下\计算机图形学\hw2\hw2\main.cpp(233): warning C4244: “初始化”: 从“double”转换到“float”，可能丢失数据
+f:\大三下\计算机图形学\hw2\hw2\main.cpp(234): warning C4244: “初始化”: 从“double”转换到“float”，可能丢失数据
+f:\大三下\计算机图形学\hw2\hw2\main.cpp(236): warning C4244: “=”: 从“double”转换到“float”，可能丢失数据
+f:\大三下\计算机图形学\hw2\hw2\main.cpp(237): warning C4244: “=”: 从“double”转换到“float”，可能丢失数据
+f:\大三下\计算机图形学\hw2\hw2\main.cpp(245): warning C4244: “参数”: 从“double”转换到“float”，可能丢失数据
+  hw2.vcxproj -> F:\大三下\计算机图形学\hw2\Debug\hw2.exe
