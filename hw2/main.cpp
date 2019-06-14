@@ -164,12 +164,13 @@ int main()
 		25.0f, -25.0f,  25.0f,
 		-25.0f, -25.0f,  25.0f,
 
+		25.0f,  25.0f,  25.0f,
 		-25.0f,  25.0f, -25.0f,
+		-25.0f,  25.0f, 25.0f,
 		25.0f,  25.0f, -25.0f,
-		25.0f,  25.0f,  25.0f,
-		25.0f,  25.0f,  25.0f,
-		-25.0f,  25.0f,  25.0f,
 		-25.0f,  25.0f, -25.0f,
+		25.0f,  25.0f,  25.0f,
+	
 
 		-25.0f, -25.0f, -25.0f,
 		-25.0f, -25.0f,  25.0f,
@@ -191,12 +192,12 @@ int main()
 	// Ìì¿ÕºÐÌùÍ¼
 	vector<std::string> faces
 	{
-		"resource/skybox/front.tga",
-		"resource/skybox/back.tga",
+		"resource/skybox/left.tga",
+		"resource/skybox/right.tga",
 		"resource/skybox/top.tga",
 		"resource/skybox/bottom.tga",
-		"resource/skybox/left.tga",
-		"resource/skybox/right.tga"
+		"resource/skybox/back.tga",
+		"resource/skybox/front.tga"
 	};
 	unsigned int cubemapTexture = loadCubemap(faces);
 
