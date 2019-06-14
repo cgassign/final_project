@@ -1,0 +1,54 @@
+# 3ds Max Wavefront OBJ Exporter v0.97b - (c)2007 guruware
+# 创建的文件:12.07.2016 16:49:12
+
+newmtl _A01992Cap_02
+	Ns 30.00
+	Ni 1.50
+	d 1.00
+	Tr 0.00
+	Tf 1.00 1.00 1.00 
+	illum 2
+	Ka 0.00 0.00 0.00
+	Kd 1.00 1.00 1.00
+	Ks 0.90 0.90 0.90
+	Ke 0.00 0.00 0.00
+	map_Ka maps\Cap_02.png
+	map_Kd maps\Cap_02.png
+	map_d maps\Cap_02.png
+	map_bump maps\Cap_02_Normal.png
+	bump maps\Cap_02_Normal.png
+
+newmtl _A01992Eastern_RedCedar_Needle
+	Ns 64.00
+	Ni 1.50
+	d 1.00
+	Tr 0.00
+	Tf 1.00 1.00 1.00 
+	illum 2
+	Ka 0.00 0.00 0.00
+	Kd 1.00 1.00 1.00
+	Ks 0.07 0.07 0.07
+	Ke 0.00 0.00 0.00
+	map_Ka maps\Eastern_RedCedar_Needle.png
+	map_Kd maps\Eastern_RedCedar_Needle.png
+	map_Ks maps\Eastern_RedCedar_Needle_Specularity.png
+	map_d maps\Eastern_RedCedar_Needle.png
+	map_bump maps\Eastern_RedCedar_Needle_Normal.png
+	bump maps\Eastern_RedCedar_Needle_Normal.png
+
+newmtl _A01992EasternRedCedarBark
+	Ns 30.00
+	Ni 1.50
+	d 1.00
+	Tr 0.00
+	Tf 1.00 1.00 1.00 
+	illum 2
+	Ka 0.00 0.00 0.00
+	Kd 1.00 1.00 1.00
+	Ks 0.90 0.90 0.90
+	Ke 0.00 0.00 0.00
+	map_Ka maps\EasternRedCedarBark.png
+	map_Kd maps\EasternRedCedarBark.png
+	map_d maps\EasternRedCedarBark.png
+	map_bump maps\EasternRedCedarBark_Normal.png
+	bump maps\EasternRedCedarBark_Normal.png
