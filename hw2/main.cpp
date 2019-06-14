@@ -20,6 +20,7 @@ void framebuffer_size_callback(GLFWwindow* window, int width, int height);
 void mouse_callback(GLFWwindow* window, double xpos, double ypos);
 void scroll_callback(GLFWwindow* window, double xoffset, double yoffset);
 void processInput(GLFWwindow *window);
+unsigned int loadCubemap(vector<std::string> faces);
 
 // 设置窗口大小
 const unsigned int SCR_WIDTH = 1200;
@@ -67,6 +68,7 @@ int main()
 	glEnable(GL_DEPTH_TEST);
 	// 构造shader
 	Shader ourShader("model_loading.vs", "model_loading.fs");
+	Shader skyboxShader("skybox.vs", "skybox.fs");
 	// 加载模型
 	Model tree("resource/tree/tree.obj");
 	Model player("resource/nanosuit/nanosuit.obj");
@@ -131,6 +133,73 @@ int main()
 		stbi_image_free(data);
 	}
 
+	// 天空盒顶点数组
+	float skyboxVertices[] = {
+		// positions          
+		-25.0f,  25.0f, -25.0f,
+		-25.0f, -25.0f, -25.0f,
+		25.0f, -25.0f, -25.0f,
+		25.0f, -25.0f, -25.0f,
+		25.0f,  25.0f, -25.0f,
+		-25.0f,  25.0f, -25.0f,
+
+		-25.0f, -25.0f,  25.0f,
+		-25.0f, -25.0f, -25.0f,
+		-25.0f,  25.0f, -25.0f,
+		-25.0f,  25.0f, -25.0f,
+		-25.0f,  25.0f,  25.0f,
+		-25.0f, -25.0f,  25.0f,
+
+		25.0f, -25.0f, -25.0f,
+		25.0f, -25.0f,  25.0f,
+		25.0f,  25.0f,  25.0f,
+		25.0f,  25.0f,  25.0f,
+		25.0f,  25.0f, -25.0f,
+		25.0f, -25.0f, -25.0f,
+
+		-25.0f, -25.0f,  25.0f,
+		-25.0f,  25.0f,  25.0f,
+		25.0f,  25.0f,  25.0f,
+		25.0f,  25.0f,  25.0f,
+		25.0f, -25.0f,  25.0f,
+		-25.0f, -25.0f,  25.0f,
+
+		-25.0f,  25.0f, -25.0f,
+		25.0f,  25.0f, -25.0f,
+		25.0f,  25.0f,  25.0f,
+		25.0f,  25.0f,  25.0f,
+		-25.0f,  25.0f,  25.0f,
+		-25.0f,  25.0f, -25.0f,
+
+		-25.0f, -25.0f, -25.0f,
+		-25.0f, -25.0f,  25.0f,
+		25.0f, -25.0f, -25.0f,
+		25.0f, -25.0f, -25.0f,
+		-25.0f, -25.0f,  25.0f,
+		25.0f, -25.0f,  25.0f
+	};
+
+	unsigned int skyboxVAO, skyboxVBO;
+	glGenVertexArrays(1, &skyboxVAO);
+	glGenBuffers(1, &skyboxVBO);
+	glBindVertexArray(skyboxVAO);
+	glBindBuffer(GL_ARRAY_BUFFER, skyboxVBO);
+	glBufferData(GL_ARRAY_BUFFER, sizeof(skyboxVertices), &skyboxVertices, GL_STATIC_DRAW);
+	glEnableVertexAttribArray(0);
+	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (void*)0);
+
+	// 天空盒贴图
+	vector<std::string> faces
+	{
+		"resource/skybox/front.tga",
+		"resource/skybox/back.tga",
+		"resource/skybox/top.tga",
+		"resource/skybox/bottom.tga",
+		"resource/skybox/left.tga",
+		"resource/skybox/right.tga"
+	};
+	unsigned int cubemapTexture = loadCubemap(faces);
+
 	//渲染循环
 	while (!glfwWindowShouldClose(window))
 	{
@@ -191,6 +260,23 @@ int main()
 		ourShader.setMat4("model", player_model);
 		player.Draw(ourShader);
 
+		// 画天空盒
+		// 更改深度函数，以便深度测试在值等于深度缓冲区的内容时通过
+		glDepthFunc(GL_LEQUAL);
+		skyboxShader.use();
+		// 从视图矩阵中删除平移
+		view = glm::mat4(glm::mat3(camera.GetViewMatrix()));
+		skyboxShader.setMat4("view", view);
+		skyboxShader.setMat4("projection", projection);
+		// 天空盒
+		glBindVertexArray(skyboxVAO);
+		glActiveTexture(GL_TEXTURE0);
+		glBindTexture(GL_TEXTURE_CUBE_MAP, cubemapTexture);
+		glDrawArrays(GL_TRIANGLES, 0, 36);
+		glBindVertexArray(0);
+		// 深度设置回默认值
+		glDepthFunc(GL_LESS);
+
 		glfwSwapBuffers(window);
 		glfwPollEvents();
 	}
@@ -243,4 +329,37 @@ void mouse_callback(GLFWwindow* window, double xpos, double ypos)
 void scroll_callback(GLFWwindow* window, double xoffset, double yoffset)
 {
 	camera.ProcessMouseScroll(yoffset);
+}
+
+// 加载天空盒代码
+unsigned int loadCubemap(vector<std::string> faces)
+{
+	unsigned int textureID;
+	glGenTextures(1, &textureID);
+	glBindTexture(GL_TEXTURE_CUBE_MAP, textureID);
+
+	int width, height, nrChannels;
+	for (unsigned int i = 0; i < faces.size(); i++)
+	{
+		unsigned char *data = stbi_load(faces[i].c_str(), &width, &height, &nrChannels, 0);
+		if (data)
+		{
+			glTexImage2D(GL_TEXTURE_CUBE_MAP_POSITIVE_X + i,
+				0, GL_RGB, width, height, 0, GL_RGB, GL_UNSIGNED_BYTE, data
+			);
+			stbi_image_free(data);
+		}
+		else
+		{
+			std::cout << "Cubemap texture failed to load at path: " << faces[i] << std::endl;
+			stbi_image_free(data);
+		}
+	}
+	glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+	glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+	glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
+	glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
+	glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_WRAP_R, GL_CLAMP_TO_EDGE);
+
+	return textureID;
 }
