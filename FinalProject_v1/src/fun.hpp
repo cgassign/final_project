@@ -50,7 +50,7 @@ unsigned int skyboxVBO = 0;
 
 unsigned int SHADOW_WIDTH = 1024, SHADOW_HEIGHT = 1024;
 
-glm::vec3 lightPos(-2.0f, 4.0f, -1.0f);
+glm::vec3 lightPos(2.0f, 4.0f, -3.0f);
 
 void renderScene(const Shader &shader, vector<Model> &allModels)
 {
@@ -62,11 +62,23 @@ void renderScene(const Shader &shader, vector<Model> &allModels)
 
 	// 调整树的位置
 	model = glm::mat4(1.0f);
-	model = glm::translate(model, glm::vec3(-1.0f, -1.5f, -2.0f));
+	model = glm::translate(model, glm::vec3(6.0f, -1.5f, -4.0f));
 	model = glm::scale(model, glm::vec3(0.05f, 0.05f, 0.05f));
 	shader.setMat4("model", model);
 	allModels[1].Draw(shader);
-	model = glm::translate(model, glm::vec3(40.0f, 0.0f, 0.0f));
+	model = glm::mat4(1.0f);
+	model = glm::translate(model, glm::vec3(1.0f, -1.5f, -8.0f));
+	model = glm::scale(model, glm::vec3(0.05f, 0.05f, 0.05f));
+	shader.setMat4("model", model);
+	allModels[1].Draw(shader);
+	model = glm::mat4(1.0f);
+	model = glm::translate(model, glm::vec3(-1.5f, -1.5f, -3.5f));
+	model = glm::scale(model, glm::vec3(0.05f, 0.05f, 0.05f));
+	shader.setMat4("model", model);
+	allModels[1].Draw(shader);
+	model = glm::mat4(1.0f);
+	model = glm::translate(model, glm::vec3(3.5f, -1.5f, -3.5f));
+	model = glm::scale(model, glm::vec3(0.05f, 0.05f, 0.05f));
 	shader.setMat4("model", model);
 	allModels[1].Draw(shader);
 
@@ -84,11 +96,21 @@ void renderScene(const Shader &shader, vector<Model> &allModels)
 	house_model = glm::scale(house_model, glm::vec3(0.0025f, 0.0025f, 0.0025f));
 	shader.setMat4("model", house_model);
 	allModels[2].Draw(shader);
+	glm::mat4 house_model1 = glm::mat4(1.0f);
+	house_model1 = glm::translate(house_model1, glm::vec3(-1.0f, -1.5f, -10.0f));
+	house_model1 = glm::scale(house_model1, glm::vec3(0.0025f, 0.0025f, 0.0025f));
+	shader.setMat4("model", house_model1);
+	allModels[2].Draw(shader);
 
 	glm::mat4 house_model2 = glm::mat4(1.0f);
 	house_model2 = glm::translate(house_model2, glm::vec3(-3.0f, -1.5f, -5.0f));
 	house_model2 = glm::scale(house_model2, glm::vec3(0.0025f, 0.0025f, 0.0025f));
 	shader.setMat4("model", house_model2);
+	allModels[3].Draw(shader);
+	glm::mat4 house_model3 = glm::mat4(1.0f);
+	house_model3 = glm::translate(house_model3, glm::vec3(2.0f, -1.5f, -6.0f));
+	house_model3 = glm::scale(house_model3, glm::vec3(0.0025f, 0.0025f, 0.0025f));
+	shader.setMat4("model", house_model3);
 	allModels[3].Draw(shader);
 
 }

@@ -169,7 +169,7 @@ int main()
 		glfwPollEvents();
 		glm::mat4 lightProjection, lightView;
 		glm::mat4 lightSpaceMatrix;
-		float near_plane = 1.0f, far_plane = 7.5f;
+		float near_plane = 1.0f, far_plane = 17.5f;
 
 		// Start the Dear ImGui frame
 		ImGui_ImplGlfwGL3_NewFrame();
@@ -236,6 +236,7 @@ int main()
 		glBindTexture(GL_TEXTURE_2D, depthMap);
 		renderScene(shader, allModels);
 
+		/*
 		//光源
 		lightShader.use();
 		glm::mat4 model = glm::mat4(1.0);
@@ -245,6 +246,7 @@ int main()
 		lightShader.setMat4("projection", projection);
 		lightShader.setMat4("view", view);
 		renderLight();
+		*/
 		
 		//天空盒
 		// 更改深度函数，以便深度测试在值等于深度缓冲区的内容时通过
