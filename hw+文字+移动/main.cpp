@@ -9,7 +9,7 @@
 #define bezier_point_num 1000
 using namespace std;
 
-// ÉèÖÃ´°¿Ú´óĞ¡
+// è®¾ç½®çª—å£å¤§å°
 extern unsigned int SCR_WIDTH;
 extern unsigned int SCR_HEIGHT;
 
@@ -28,11 +28,11 @@ extern std::map<GLchar, Character> Characters;
 int main()
 {
 	glfwInit();
-	// ³õÊ¼»¯GLFW
+	// åˆå§‹åŒ–GLFW
 	glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
 	glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
 	glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
-	// ´´½¨´°¿Ú¶ÔÏó
+	// åˆ›å»ºçª—å£å¯¹è±¡
 
 	GLFWwindow* window = glfwCreateWindow(SCR_WIDTH, SCR_HEIGHT, "Project", NULL, NULL);
 	if (window == NULL)
@@ -43,7 +43,7 @@ int main()
 	}
 	glfwMakeContextCurrent(window);
 	glfwSetFramebufferSizeCallback(window, framebuffer_size_callback);
-	//Êó±êÊäÈë
+	//é¼ æ ‡è¾“å…¥
 	glfwSetCursorPosCallback(window, mouse_callback);
 	glfwSetScrollCallback(window, scroll_callback);
 
@@ -85,21 +85,21 @@ int main()
 	//glUniformMatrix4fv(glGetUniformLocation(textshader.ID, "projection"), 1, GL_FALSE, glm::value_ptr(text_projection));
 	textshader.setMat4("projection", text_projection);
 
-	// ¼ÓÔØÄ£ĞÍ
+	// åŠ è½½æ¨¡å‹
 	Model tree("resource/tree/tree.obj");
 	Model player("resource/nanosuit/nanosuit.obj");
 	Model house1("resource/Building Apartment/Mesh/Building_Apartment_10.fbx");
 	Model house2("resource/Building Apartment/Mesh/Building_Apartment_13.fbx");
 
 
-	//Ä£ĞÍÏòÁ¿
+	//æ¨¡å‹å‘é‡
 	vector<Model> allModels;
 	allModels.push_back(player);
 	allModels.push_back(tree);
 	allModels.push_back(house1);
 	allModels.push_back(house2);
 
-	// µ¼ÈëµØ°åµÄÌùÍ¼
+	// å¯¼å…¥åœ°æ¿çš„è´´å›¾
 	unsigned int woodTexture;
 	glGenTextures(1, &woodTexture);
 	int width, height, nrComponents;
@@ -130,11 +130,11 @@ int main()
 		stbi_image_free(data);
 	}
 
-	//Éú³ÉÉî¶ÈÌùÍ¼
+	//ç”Ÿæˆæ·±åº¦è´´å›¾
 	const unsigned int SHADOW_WIDTH = 1024, SHADOW_HEIGHT = 1024;
 	unsigned int depthMapFBO;
 	glGenFramebuffers(1, &depthMapFBO);
-	//´´½¨2DÎÆÀí
+	//åˆ›å»º2Dçº¹ç†
 	unsigned int depthMap;
 	glGenTextures(1, &depthMap);
 	glBindTexture(GL_TEXTURE_2D, depthMap);
@@ -145,14 +145,14 @@ int main()
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_BORDER);
 	float borderColor[] = { 1.0, 1.0, 1.0, 1.0 };
 	glTexParameterfv(GL_TEXTURE_2D, GL_TEXTURE_BORDER_COLOR, borderColor);
-	//Éú³ÉµÄÉî¶ÈÎÆÀí×÷ÎªÖ¡»º³åµÄÉî¶È»º³å
+	//ç”Ÿæˆçš„æ·±åº¦çº¹ç†ä½œä¸ºå¸§ç¼“å†²çš„æ·±åº¦ç¼“å†²
 	glBindFramebuffer(GL_FRAMEBUFFER, depthMapFBO);
 	glFramebufferTexture2D(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_TEXTURE_2D, depthMap, 0);
 	glDrawBuffer(GL_NONE);
 	glReadBuffer(GL_NONE);
 	glBindFramebuffer(GL_FRAMEBUFFER, 0);
 
-	// Ìì¿ÕºĞÌùÍ¼
+	// å¤©ç©ºç›’è´´å›¾
 	vector<std::string> faces
 	{
 		"resource/skybox/left.tga",
@@ -284,7 +284,7 @@ int main()
 		//ImGui::End();
 	
 
-		//ÎïÌå¼°ÒõÓ°
+		//ç‰©ä½“åŠé˜´å½±
 		lightView = glm::lookAt(lightPos, glm::vec3(0.0f), glm::vec3(0.0, 1.0, 0.0));
 		lightSpaceMatrix = lightProjection * lightView;
 		// render scene from light's point of view
@@ -295,7 +295,7 @@ int main()
 		glClear(GL_DEPTH_BUFFER_BIT);
 		glActiveTexture(GL_TEXTURE0);
 		glBindTexture(GL_TEXTURE_2D, woodTexture);
-		// ÕıÃæÌŞ³ı£¬Ïû³ıpeterÓÎÒÆ
+		// æ­£é¢å‰”é™¤ï¼Œæ¶ˆé™¤peteræ¸¸ç§»
 		glCullFace(GL_FRONT);
 		renderScene(simpleDepthShader, allModels);
 		glBindFramebuffer(GL_FRAMEBUFFER, 0);
@@ -321,7 +321,7 @@ int main()
 		renderScene(shader, allModels);
 
 		/*
-		//¹âÔ´
+		//å…‰æº
 		lightShader.use();
 		glm::mat4 model = glm::mat4(1.0);
 		model = glm::translate(model, lightPos);
@@ -332,11 +332,11 @@ int main()
 		renderLight();
 		*/
 		
-		//Ìì¿ÕºĞ
-		// ¸ü¸ÄÉî¶Èº¯Êı£¬ÒÔ±ãÉî¶È²âÊÔÔÚÖµµÈÓÚÉî¶È»º³åÇøµÄÄÚÈİÊ±Í¨¹ı
+		//å¤©ç©ºç›’
+		// æ›´æ”¹æ·±åº¦å‡½æ•°ï¼Œä»¥ä¾¿æ·±åº¦æµ‹è¯•åœ¨å€¼ç­‰äºæ·±åº¦ç¼“å†²åŒºçš„å†…å®¹æ—¶é€šè¿‡
 		glDepthFunc(GL_LEQUAL);
 		skyboxShader.use();
-		// ´ÓÊÓÍ¼¾ØÕóÖĞÉ¾³ıÆ½ÒÆ
+		// ä»è§†å›¾çŸ©é˜µä¸­åˆ é™¤å¹³ç§»
 		view = glm::mat4(glm::mat3(camera.GetViewMatrix()));
 		skyboxShader.setMat4("view", view);
 		skyboxShader.setMat4("projection", projection);
@@ -344,11 +344,11 @@ int main()
 		glActiveTexture(GL_TEXTURE0);
 		glBindTexture(GL_TEXTURE_CUBE_MAP, cubemapTexture);
 		renderSkybox();
-		// Éî¶ÈÉèÖÃ»ØÄ¬ÈÏÖµ
+		// æ·±åº¦è®¾ç½®å›é»˜è®¤å€¼
 		glDepthFunc(GL_LESS);
 
-		// äÖÈ¾ÎÄ×Ö
-		RenderText(textshader, "OUR SCENE!", 25.0f, 25.0f, 1.0f, glm::vec3(0.3, 0.7f, 0.9f));
+		// æ¸²æŸ“æ–‡å­—
+		RenderText(textshader, "WELCOME TO THE THRILLING VILLAGE!", 100.0f, 1000.0f, 1.0f, glm::vec3(0.3, 0.7f, 0.9f));
 
 		// Rendering
 		ImGui::Render();
